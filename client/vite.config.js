@@ -6,8 +6,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
-        secure: false,
+        target: 'https://teamwork-backend-3vv5.onrender.com',
+        secure: true,
       },
     },
   },
