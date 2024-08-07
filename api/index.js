@@ -10,9 +10,13 @@ import leaderboardRoutes from "./routes/leaderboard.route.js"
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import connectDB from './config/db.js';
+import cors from "cors"
+
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
