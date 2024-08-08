@@ -3,6 +3,8 @@ import { errorHandler } from './error.js';
 
 export const verifyToken = (req, res, next) => {
     const token = req.cookies.access_token;
+    console.log(`verifyuser token: ${token}`);
+    
 
     if (!token) return next(errorHandler(401, 'You are not authenticated!'));
     // console.log(token);
@@ -11,6 +13,8 @@ export const verifyToken = (req, res, next) => {
         if (err) return next(errorHandler(403, 'Token is not valid!'));
 
         req.user = user;
+        console.log(user);
+        
         next();
     });
 

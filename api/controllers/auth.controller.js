@@ -40,12 +40,13 @@ export const signin = async (req, res, next) => {
     if (!validUser) return next(errorHandler(404, 'User not found'));
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword) return next(errorHandler(401, 'wrong credentials'));
-    const token = jwt.sign({ id: validUser._id }, "dsfwefwfw51f5w4efwfwec", { expiresIn: '30d' });
+    const token = jwt.sign({ id: validUser._id.toString() }, "dsfwefwfw51f5w4efwfwec", { expiresIn: '30d' });
     // console.log(token);
     const { password: hashedPassword, ...rest } = validUser._doc;
     const expiryDate = new Date(Date.now() + 2592000000000); // 1 hour
     res
-      .cookie('access_token', token, { httpOnly: true, expires: expiryDate, secure: false, sameSite: 'strict' })
+      .cookie('access_token', token, { httpOnly: true, expires: expiryDate, secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict', })
       .status(200)
       .json(rest);
   } catch (error) {
