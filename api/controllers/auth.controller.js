@@ -41,14 +41,14 @@ export const signin = async (req, res, next) => {
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword) return next(errorHandler(401, 'wrong credentials'));
     const token = jwt.sign({ id: validUser._id.toString() }, "dsfwefwfw51f5w4efwfwec", { expiresIn: '30d' });
-    // console.log(token);
+    console.log(token);
     const { password: hashedPassword, ...rest } = validUser._doc;
-    const expiryDate = new Date(Date.now() + 2592000000000); // 1 hour
-    res
-      .cookie('access_token', token, { httpOnly: true, expires: expiryDate, secure: false,
+    const expiryDate = new Date(Date.now() + 2592000000000); 
+    // sessionStorage.setItem('access_token', token)
+    res.cookie('access_token', token, { httpOnly: true, sameSite: 'none', maxAge: expiryDate
          })
       .status(200)
-      .json(rest);
+      .json({token, user: rest});
   } catch (error) {
     next(error);
   }
@@ -85,13 +85,17 @@ export const google = async (req, res, next) => {
       const token = jwt.sign({ id: newUser._id }, "dsfwefwfw51f5w4efwfwec");
       const { password: hashedPassword2, ...rest } = newUser._doc;
       const expiryDate = new Date(Date.now() + 3600000); // 1 hour
+      console.log(token);
+      
       res
         .cookie('access_token', token, {
           httpOnly: true,
           expires: expiryDate,
         })
         .status(200)
-        .json(rest);
+        .send({
+          token: token, user: rest
+        });
     }
   } catch (error) {
     next(error);

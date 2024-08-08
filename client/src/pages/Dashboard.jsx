@@ -15,6 +15,7 @@ function Dashboard() {
   const { currentUser } = useSelector((state) => state.user);
   const backendUrl = config.backendUrl;
   console.log(backendUrl);
+  const token = sessionStorage.getItem('access_token')
   
   const dispatch = useDispatch()
 
@@ -43,6 +44,7 @@ function Dashboard() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `${token}`
         },
         credentials: 'include',
         body: JSON.stringify(formData),
@@ -65,6 +67,7 @@ function Dashboard() {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `${token}`
             },
             credentials: 'include',
             body: JSON.stringify(referrelData),

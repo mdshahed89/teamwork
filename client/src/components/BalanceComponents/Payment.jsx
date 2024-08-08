@@ -13,6 +13,7 @@ export default function Payment({ title, typ }) {
   const {currentUser} = useSelector(state => state.user)
   const dispatch = useDispatch()
   const backendUrl = config.backendUrl
+  const token = sessionStorage.getItem('access_token')
 
   const [openModal, setOpenModal] = useState(false);
   const [activeMethod, setActiveMethod] = useState("bkash");
@@ -44,6 +45,7 @@ export default function Payment({ title, typ }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `${token}`
         },
         credentials: 'include',
         body: JSON.stringify(formData),
@@ -71,6 +73,7 @@ export default function Payment({ title, typ }) {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `${token}`
               },
               credentials: 'include',
               body: JSON.stringify(balanceData),

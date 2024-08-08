@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUserFailure, updateUserStart, updateUserSuccess } from "../../redux/user/userSlice.js";
 import config from "../config.js";
 
+
+
+
 function BeforeJoin({setJoined}) {
 
   const {currentUser} = useSelector(state => state.user)
@@ -25,6 +28,12 @@ function BeforeJoin({setJoined}) {
     balance: currentUser?.balance - 1000
   })
 
+  const token = sessionStorage.getItem('access_token')
+
+  
+  
+
+
   console.log(formData);
 
   const handleJoinButton = async () => {
@@ -33,10 +42,12 @@ function BeforeJoin({setJoined}) {
     try {
       
       dispatch(updateUserStart());
+      
       const res = await fetch(`${backendUrl}/api/user/update/${currentUser._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `${token}`
         },
         credentials: 'include',
         body: JSON.stringify(formData),

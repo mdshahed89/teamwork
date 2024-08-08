@@ -23,7 +23,14 @@ function Profile() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
-
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+  
+  
+  
 
   const formData = new FormData();
     formData.append('file', file);
@@ -49,6 +56,10 @@ function Profile() {
   // formData.file = file
   console.log(formData);
 
+const token = sessionStorage.getItem('access_token')
+console.log(token);
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,14 +71,16 @@ function Profile() {
       dispatch(updateUserStart());
       const res = await fetch(`${backendUrl}/api/user/update/${currentUser._id}`, {
         method: 'POST',
-        // headers: {
+        headers: {
         //   'Content-Type': 'application/json',
-        // },
+          'Authorization': `${token}`
+        },
         // body: JSON.stringify(formData),
         credentials: 'include',
         body: formData
       });
       const data = await res.json();
+      // const token = res.headers['authorization'];
       console.log(data);
       if (data.success === false) {
         dispatch(updateUserFailure(data));

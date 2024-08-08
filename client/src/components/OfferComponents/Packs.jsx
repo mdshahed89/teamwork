@@ -9,6 +9,7 @@ function Packs({operator, packTitle, quantity, time, amount}) {
   const {currentUser} = useSelector(state => state.user)
   const [openModal, setOpenModal] = useState(false);
   const backendUrl = config.backendUrl
+  const token = sessionStorage.getItem('access_token')
 
   const dispatch = useDispatch()
 
@@ -38,6 +39,7 @@ function Packs({operator, packTitle, quantity, time, amount}) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `${token}`
         },
         credentials: 'include',
         body: JSON.stringify(formData),
@@ -64,6 +66,7 @@ function Packs({operator, packTitle, quantity, time, amount}) {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `${token}`
               },
               credentials: 'include',
               body: JSON.stringify(balanceData),

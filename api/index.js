@@ -12,6 +12,7 @@ import path from 'path';
 import connectDB from './config/db.js';
 import cors from "cors"
 
+
 dotenv.config();
 
 const app = express();
@@ -37,6 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 //   });
 
 connectDB()
+
 
 const __dirname = path.resolve();
 

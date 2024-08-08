@@ -35,13 +35,17 @@ export default function SignIn() {
         credentials: 'include',
         body: JSON.stringify(formData),
       });
+      console.log(res);
+      
       const data = await res.json();
-      // console.log(data);
+      console.log(data.token);
       if (data.success === false) {
         dispatch(signInFailure(data));
         return;
       }
-      dispatch(signInSuccess(data));
+      dispatch(signInSuccess(data.user));
+      
+      sessionStorage.setItem('access_token', data.token)
       navigate("/dashboard/");
     } catch (error) {
       dispatch(signInFailure(error));

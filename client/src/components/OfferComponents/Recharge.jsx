@@ -7,6 +7,7 @@ function Recharge({operator}) {
 
     const {currentUser} = useSelector(state => state.user)
     const backendUrl = config.backendUrl
+    const token = sessionStorage.getItem('access_token')
 
     const [amount, setAmount] = useState(0)
     const [formData, setFormData] = useState({})
@@ -34,6 +35,7 @@ function Recharge({operator}) {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `${token}`
             },
             credentials: 'include',
             body: JSON.stringify(formData),
@@ -59,6 +61,7 @@ function Recharge({operator}) {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
+                  'Authorization': `${token}`
                 },
                 credentials: 'include',
                 body: JSON.stringify(balanceData),
