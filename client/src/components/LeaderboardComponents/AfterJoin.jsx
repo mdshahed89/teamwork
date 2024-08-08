@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import ProfileImg from "../../assets/ProfileImg.jpg"
 import Person from './Person'
 import { useSelector } from 'react-redux'
+import config from '../config'
 
 function AfterJoin() {
 
   const {currentUser} = useSelector(state => state.user)
   const defaultImg = "https://i.imghippo.com/files/Cs0om1722879424.jpg"
+  const backendUrl = config.backendUrl
 
   const [datas, setDatas] = useState({})
 
@@ -22,11 +24,12 @@ function AfterJoin() {
   const handleTopMember = async () => {
 
     try {
-      const res = await fetch("/api/leaderboard/top", {
+      const res = await fetch(`${backendUrl}/api/leaderboard/top`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(datas),
       })
       const data = await res.json()

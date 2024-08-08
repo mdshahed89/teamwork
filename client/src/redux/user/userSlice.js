@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   currentUser: null,
   loading: false,
-  error: false,
+  error: false
 };
 
 const userSlice = createSlice({
@@ -66,5 +66,6 @@ export const {
   deleteUserSuccess,
   signOut,
 } = userSlice.actions;
+
 
 export default userSlice.reducer;

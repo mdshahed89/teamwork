@@ -8,10 +8,14 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import OAuth from "../components/OAuth";
 import Logo from "../assets/Logo.png";
+import config from "../components/config.js";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
   const { loading, error } = useSelector((state) => state.user);
+  const backendUrl = config.backendUrl
+  console.log(backendUrl);
+  
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,7 +27,7 @@ export default function SignIn() {
     e.preventDefault();
     try {
       dispatch(signInStart());
-      const res = await fetch("/api/auth/signin", {
+      const res = await fetch(`${backendUrl}/api/auth/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

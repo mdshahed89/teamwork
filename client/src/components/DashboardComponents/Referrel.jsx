@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { IoCopyOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
+import config from "../config";
 
 function Referrel() {
 
   const {currentUser} = useSelector(state => state.user)
+  const backendUrl = config.backendUrl
   const [referrelData, setReferrelData] =useState({})
   const [data, setData] = useState({})
 
@@ -20,11 +22,12 @@ function Referrel() {
      
         try {
   
-          const res = await fetch("/api/referrel/details", {
+          const res = await fetch(`${backendUrl}/api/referrel/details`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify(referrelData),
           });
           const datas = await res.json();

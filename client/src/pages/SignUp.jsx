@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 // import OAuth from "../components/OAuth";
 import Logo from "../assets/Logo.png";
 import { useSelector } from "react-redux";
+import config from "../components/config";
 
 export default function SignUp() {
 
@@ -10,6 +11,7 @@ export default function SignUp() {
   const [formData, setFormData] = useState({
     referrelId: "01814840833"
   });
+  const backendUrl = config.backendUrl
 
   const [confirmPassword, setConfirmPassword] = useState("")
   const [error, setError] = useState(false);
@@ -34,7 +36,7 @@ export default function SignUp() {
     try {
       setLoading(true);
       setError(false);
-      const res = await fetch("https://teamwork-backend-3vv5.onrender.com/api/auth/signup", {
+      const res = await fetch(`${backendUrl}/api/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

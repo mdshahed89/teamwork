@@ -2,10 +2,12 @@ import React, { useRef, useState } from 'react'
 import ProfileImg from "../../assets/ProfileImg.jpg"
 import { useDispatch, useSelector } from 'react-redux'
 import { updateUserFailure, updateUserStart, updateUserSuccess } from '../../redux/user/userSlice.js'
+import config from '../config.js'
 
 function Profile() {
 
   const {currentUser} = useSelector(state => state.user)
+  const backendUrl = config.backendUrl
   const dispatch = useDispatch()
   const fileRef = useRef(null)
   // const [file,  setFile] = useState(null)
@@ -56,12 +58,13 @@ function Profile() {
         return;
       }
       dispatch(updateUserStart());
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+      const res = await fetch(`${backendUrl}/api/user/update/${currentUser._id}`, {
         method: 'POST',
         // headers: {
         //   'Content-Type': 'application/json',
         // },
         // body: JSON.stringify(formData),
+        credentials: 'include',
         body: formData
       });
       const data = await res.json();

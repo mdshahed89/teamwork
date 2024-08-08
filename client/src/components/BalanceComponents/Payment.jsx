@@ -6,11 +6,13 @@ import NagadLogo from "../../assets/Nagadlogo.png";
 import { IoCopyOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserFailure, updateUserStart, updateUserSuccess } from "../../redux/user/userSlice";
+import config from "../config";
 
 export default function Payment({ title, typ }) {
 
   const {currentUser} = useSelector(state => state.user)
   const dispatch = useDispatch()
+  const backendUrl = config.backendUrl
 
   const [openModal, setOpenModal] = useState(false);
   const [activeMethod, setActiveMethod] = useState("bkash");
@@ -38,11 +40,12 @@ export default function Payment({ title, typ }) {
             }
       
       
-      const res = await fetch(`/api/payment/pay`, {
+      const res = await fetch(`${backendUrl}/api/payment/pay`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(formData),
       });
       const data = await res.json();
@@ -64,11 +67,12 @@ export default function Payment({ title, typ }) {
             
             
             dispatch(updateUserStart());
-            const res = await fetch(`/api/user/update/${currentUser._id}`, {
+            const res = await fetch(`${backendUrl}/api/user/update/${currentUser._id}`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
+              credentials: 'include',
               body: JSON.stringify(balanceData),
             });
             const data = await res.json();

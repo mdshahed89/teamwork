@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { FaXmark } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserFailure, updateUserStart, updateUserSuccess } from "../../redux/user/userSlice";
+import config from "../config";
 
 function Packs({operator, packTitle, quantity, time, amount}) {
 
   const {currentUser} = useSelector(state => state.user)
   const [openModal, setOpenModal] = useState(false);
+  const backendUrl = config.backendUrl
 
   const dispatch = useDispatch()
 
@@ -32,11 +34,12 @@ function Packs({operator, packTitle, quantity, time, amount}) {
     try {
       
       
-      const res = await fetch(`/api/buypacks/pay`, {
+      const res = await fetch(`${backendUrl}/api/buypacks/pay`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(formData),
       });
       const data = await res.json();
@@ -57,11 +60,12 @@ function Packs({operator, packTitle, quantity, time, amount}) {
             
             
             dispatch(updateUserStart());
-            const res = await fetch(`/api/user/update/${currentUser._id}`, {
+            const res = await fetch(`${backendUrl}/api/user/update/${currentUser._id}`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
+              credentials: 'include',
               body: JSON.stringify(balanceData),
             });
             const data = await res.json();

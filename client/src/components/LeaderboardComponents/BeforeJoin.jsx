@@ -3,11 +3,13 @@ import NagadLogo from "../../assets/NagadLogo.png";
 import { FaXmark } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserFailure, updateUserStart, updateUserSuccess } from "../../redux/user/userSlice.js";
+import config from "../config.js";
 
 function BeforeJoin({setJoined}) {
 
   const {currentUser} = useSelector(state => state.user)
   const dispatch = useDispatch()
+  const backendUrl = config.backendUrl
 
   const [openModal, setOpenModal] = useState(false);
   const [lmData, setlmData] = useState({
@@ -31,11 +33,12 @@ function BeforeJoin({setJoined}) {
     try {
       
       dispatch(updateUserStart());
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+      const res = await fetch(`${backendUrl}/api/user/update/${currentUser._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(formData),
       });
       const data = await res.json();
@@ -49,11 +52,12 @@ function BeforeJoin({setJoined}) {
       const handleMemberSave = async () => {
 
         try {
-          const resp = await fetch("/api/leaderboard/join", {
+          const resp = await fetch(`${backendUrl}/api/leaderboard/join`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify(lmData),
           })
           const datas = await resp.json()
